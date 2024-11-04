@@ -155,3 +155,10 @@ func is_valid() -> bool:
 ## If this method returns [code]true[/code], then [method is_valid] will also return [code]true[/code].
 func is_connection_made() -> bool:
 	return is_valid() and _signal.is_connected(_callable)
+
+#Disconnect the connection once object is about to be deleted.
+func _notification(what: int) -> void:
+	match what:
+		NOTIFICATION_PREDELETE:
+			if _signal and _callable:
+				_signal.disconnect(_callable)
